@@ -4,6 +4,7 @@ interface Field {
     name: string;
     type: string;
     isNullable: boolean;
+    isRequired: boolean;
 }
 
 function getFields(clsDefin: string): string[] {
@@ -31,25 +32,30 @@ function parseParams(dirtyFields: string[]): Field[] {
         if (type.includes('?')) {
             isNullable = true;
         }
-        fields.push({ name: name, type: type, isNullable: isNullable });
+        const isRequired = getConstrParams(name, classDeclaration);
+
+        fields.push({ name: name, type: type, isNullable: isNullable, isRequired: isRequired });
     }
     return fields;
 }
 
-const fieldsStr = getFields(classDeclaration);
-const fieldsField = parseParams(fieldsStr);
+function getConstrParams(fieldName: string, clsDefin: string): boolean {
+    const fieldRegex = /\(.*\)/;
+    const regRes = clsDefin.match(fieldRegex)![0];
+    const constrPrms = regRes.split(',');
+    let isRequired = false;
+    for (const prm of constrPrms) {
+        if (prm.includes(fieldName) && prm.includes('required')) {
+            isRequired = true;
+        }
+    }
+    return isRequired;
+}
 
+const dirtyFields = getFields(classDeclaration);
+const fields = parseParams(dirtyFields);
 
-
-console.log(fieldsField);
-
-// const item = `final String? mvar;`
-// const regRes = item.match(/(\w+\??)\W+(\w*);/)!;
-// console.log(regRes[1]);
-
-
-
-
+console.log(fields);
 
 
 
