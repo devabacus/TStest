@@ -1,19 +1,55 @@
+import { classDeclaration } from "./constant";
 
-interface Param {
+interface Field {
     name: string;
-    isRequired: boolean;
+    type: string;
     isNullable: boolean;
 }
 
-const prm: Param = {
-    name: "привет",    
-    isRequired: false,
-    isNullable: true
+function getFields(clsDefin: string): string[] {
+    const fieldRegex = /final.*/g;
+    const dirtyFields: string[] = [];
+
+    let match;
+
+    while ((match = fieldRegex.exec(clsDefin)) !== null) {
+        const dField = match[0];
+        dirtyFields.push(dField);
+    }
+    return dirtyFields;
 }
 
 
-console.log(prm.isNullable);
-console.log(prm.isRequired);
-console.log(prm.name);
+function parseParams(dirtyFields: string[]): Field[] {
+    const fields: Field[] = [];
+    for (const item of dirtyFields) {
+        const regRes = item.match(/(\w+\??)\W+(\w*);/)!;
+        const name = regRes[2];
+        const type = regRes[1];
+        let isNullable = false;
+
+        if (type.includes('?')) {
+            isNullable = true;
+        }
+        fields.push({ name: name, type: type, isNullable: isNullable });
+    }
+    return fields;
+}
+
+const fieldsStr = getFields(classDeclaration);
+const fieldsField = parseParams(fieldsStr);
+
+
+
+console.log(fieldsField);
+
+// const item = `final String? mvar;`
+// const regRes = item.match(/(\w+\??)\W+(\w*);/)!;
+// console.log(regRes[1]);
+
+
+
+
+
 
 
