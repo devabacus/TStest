@@ -18,6 +18,10 @@ const name = method.replace(regexConst, '')
 console.log(name);
 
 
+export function sum(x: number, y: number):number {
+    return x+y;
+
+}
 
 
 
