@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "test:watch": "mocha --watch"
+    "test": "mocha --ui tdd",
+    "test:watch": "mocha --watch --ui tdd"
   },
   "keywords": [],
   "author": "",

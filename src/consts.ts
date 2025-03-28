@@ -1,38 +1,38 @@
-export const mpath = "g:\\Projects\\Flutter\\a25\\lib\\features\\home\\presentation\\pages\\home_page.dart"
+export const tableCategory = `
+import 'package:drift/drift.dart';
 
+class CategoryTable extends Table {
 
-export const method = `
-
-
-import '../../presentation/pages/home_page.dart';
-import 'home_routes_constants.dart';
-
-import 'dart:core';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-
-List<RouteBase> getHomeRoutes() {
-  return [
-
-    GoRoute(
-      name: HomeRoutes.second,
-      path: HomeRoutes.secondPath,
-      builder: (BuildContext context, state) {
-        
-      
-      return SecondPage();
-    
-      }
-  ),
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
   
+}
 
-    GoRoute(
-      name: HomeRoutes.home,
-      path: HomeRoutes.homePath,
-      builder: (BuildContext context, state) => HomePage(),
-    ),
-  ];
+`;
+
+export const tableTask = `
+import 'package:drift/drift.dart';
+
+class TaskTable extends Table {
+
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
+  TextColumn get description => text()();
+  IntColumn get age => integer()();
+  
+  
+}
+
+`;
+
+export const tableAuth = `
+import 'package:drift/drift.dart';
+
+class AuthTable extends Table {
+
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get title => text()();
+  
 }
 
 `;
