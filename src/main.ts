@@ -1,61 +1,25 @@
-import { classDeclaration } from "./constant";
-
-interface Field {
-    name: string;
-    type: string;
-    isNullable: boolean;
-    isRequired: boolean;
-}
-
-function getFields(clsDefin: string): string[] {
-    const fieldRegex = /final.*/g;
-    const dirtyFields: string[] = [];
-
-    let match;
-
-    while ((match = fieldRegex.exec(clsDefin)) !== null) {
-        const dField = match[0];
-        dirtyFields.push(dField);
-    }
-    return dirtyFields;
-}
+import { method } from "./consts";
 
 
-function parseParams(dirtyFields: string[]): Field[] {
-    const fields: Field[] = [];
-    for (const item of dirtyFields) {
-        const regRes = item.match(/(\w+\??)\W+(\w*);/)!;
-        const name = regRes[2];
-        const type = regRes[1];
-        let isNullable = false;
 
-        if (type.includes('?')) {
-            isNullable = true;
-        }
-        const isRequired = getConstrParams(name, classDeclaration);
+// const regexConst = /\s*void\s+navigateToSecond\s*\([^)]*\)\s*\{[\s\S]*?\}\s*/g;
+// const regexConst = /\s*void.*navigateToSecond\s*/g;
 
-        fields.push({ name: name, type: type, isNullable: isNullable, isRequired: isRequired });
-    }
-    return fields;
-}
 
-function getConstrParams(fieldName: string, clsDefin: string): boolean {
-    const fieldRegex = /\(.*\)/;
-    const regRes = clsDefin.match(fieldRegex)![0];
-    const constrPrms = regRes.split(',');
-    let isRequired = false;
-    for (const prm of constrPrms) {
-        if (prm.includes(fieldName) && prm.includes('required')) {
-            isRequired = true;
-        }
-    }
-    return isRequired;
-}
+const pageName = `second`;
+// const regexConst = /\s*.*Second.*\{[\s\S]*?\}/g;
+// const regexConst = new RegExp(`\\s*.*${pageName}.*\\{[\\s\\S]*?\\}`, 'g');
+// const regexConst = new RegExp(`[\\s\\n]*GoRoute.*\\n.*${pageName}.*[\\s\\S]*?\\),\\n`, 'g');
 
-const dirtyFields = getFields(classDeclaration);
-const fields = parseParams(dirtyFields);
+const regexConst = /[\s\n]*GoRoute.*\n.*second.*[\s\S]*?\),/g;
 
-console.log(fields);
+const name = method.replace(regexConst, '')
+
+console.log(name);
+
+
+
+
 
 
 
